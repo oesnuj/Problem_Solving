@@ -1,19 +1,19 @@
 #include <iostream>
 using namespace std;
 
-int convertOperation(int a, int b);
+long long int convertOperation(long long int a, long long int b);
 
 int main()
 {
-    int a, b;
+    long long int a, b;
     cin >> a >> b;
     cout << convertOperation(a, b) << endl;
     return 0;
 }
 
-int convertOperation(int a, int b)
+long long int convertOperation(long long int a, long long int b)
 {
-    int n;
+    long long int n;
     n = (a+b)*(a-b);
     return n; 
 }
