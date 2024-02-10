@@ -9,7 +9,7 @@ int main()
     int num[101];
     int sum = 0;
     int max_sum = 0;
-    for (int i = 0; i < t; i++)
+    for (int i = 0; i < t; i++) 
         cin >> num[i];
 
     for (int i = 0; i < t - 2; i++)
@@ -20,8 +20,7 @@ int main()
                 if (sum == M)
                 {
                     cout << sum;
-        
-                return 0;
+                    return 0;
                 }
                 else if (sum < M && sum > max_sum)
                     max_sum = sum;
