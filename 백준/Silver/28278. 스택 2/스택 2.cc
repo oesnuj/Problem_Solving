@@ -14,7 +14,6 @@ int main()
 	cin >> N;
 	char input;
 
-	string str;
 	while (N--)
 	{
 		int x;
