@@ -17,7 +17,6 @@ int main() {
 		cin >> arr[i];
 
 	int* result = new int[n]();
-	int count = 0;
 
 	t.height = arr[0];
 	t.index = 1;
@@ -54,5 +53,8 @@ int main() {
 	}
 	for (int i = 0; i < n; i++)
 		cout << result[i] << " ";
+    
+    delete[] arr;
+	delete[] result;
 	return 0;
 }
