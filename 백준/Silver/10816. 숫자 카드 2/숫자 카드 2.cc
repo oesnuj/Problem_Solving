@@ -1,10 +1,10 @@
 #include <iostream>
-#include <algorithm>
 using namespace std;
 
 int main()
 {
-    ios::sync_with_stdio(0);  cin.tie(0);
+    //이진탐색 자꾸 오류나서 그냥 갯수를 생각하는 로직을 바꾸니 맞음
+    ios::sync_with_stdio(0);  cin.tie(0); 
     int n; 
     cin >> n;
     int input_array[500000];
