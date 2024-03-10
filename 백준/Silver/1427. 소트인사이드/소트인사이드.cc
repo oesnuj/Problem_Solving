@@ -6,7 +6,7 @@ using namespace std;
 int main()
 {
     string n;
-    getline(cin, n);
+    cin >> n;
     sort(n.begin(), n.end(), greater<char>());
     cout << n;
 
