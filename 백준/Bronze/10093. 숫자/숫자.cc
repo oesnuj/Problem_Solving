@@ -14,8 +14,8 @@ int main() {
         cout << 0;
         return 0;
     }
-    int s = min(a, b);
-    int e = max(a, b);
+    long long int s = min(a, b);
+    long long int e = max(a, b);
     cout << e - s - 1 << '\n';
     for (long long int i = s + 1; i < e; i++)
     {
