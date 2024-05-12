@@ -11,7 +11,7 @@ int main() {
     cin >> n;
     while (n--)
     {
-        long long int x;
+        int x;
         cin >> x;
         if (x == 0)
         {
