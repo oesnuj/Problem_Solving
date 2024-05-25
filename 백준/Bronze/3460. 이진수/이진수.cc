@@ -1,5 +1,4 @@
 #include <iostream>
-#include <vector>
 using namespace std;
 
 int main() {
@@ -8,18 +7,15 @@ int main() {
     cin >> T;
     while (T--)
     {
-        vector <int> v;
         int n;
         cin >> n;
-        while(n != 0)
+        int cnt = 0;
+        while(n > 0)
         {
-            v.push_back(n % 2);
+            if (n % 2 == 1)
+                cout << cnt << " ";
             n /= 2;
-        }
-        for (int i = 0; i < v.size(); i++)
-        {
-            if (v[i] == 1)
-                cout << i << " ";
+            cnt++;
         }
         cout << '\n';
     }
