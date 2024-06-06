@@ -6,9 +6,7 @@ const [T, P] = input[1].split(' ').map(Number);
 
 let tBundles = 0, pBundles, pSingle;
 for(let i =0; i<6; i++){
-    tBundles += Math.floor(participants[i] / T);
-    if(participants[i] % T != 0)
-        tBundles += 1; //나누어 떨어지지않으면 한묶음 추가
+    tBundles += Math.ceil(participants[i] / T);
 }
 pBundles = Math.floor(n / P);
 pSingle = n % P;
