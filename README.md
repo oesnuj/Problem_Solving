@@ -11,6 +11,5 @@
   <a href="https://solved.ac/oesnuj">
     <!--내 백준 티어-->
     <img src="http://mazandi.herokuapp.com/api?handle=oesnuj&theme=warm"/>
-    <br>
     <img src="http://mazassumnida.wtf/api/v2/generate_badge?boj=oesnuj" alt="Solved.ac Profile"/>
   </a>
