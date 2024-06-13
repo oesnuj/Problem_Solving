@@ -2,7 +2,7 @@
 #include <vector>
 using namespace std;
 
-void input(int &num, vector <int> &v);
+void input(vector <int> &v);
 char compare(vector <int> &a, vector <int> &b);
 void printWinner(char winner);
 
@@ -14,25 +14,24 @@ int main() {
 	{
 		vector <int> a(4,0);
 		vector <int> b(4,0);
-		int numA, numB;
-		cin >> numA;
-		input(numA, a);
-		cin >> numB;
-		input(numB, b);
+		input(a);
+		input(b);
 		printWinner(compare(a, b));
 	}
 	cout << endl;
 	return 0;
 }
 
-void input(int &num, vector <int> &v)
-{
-	int type;
-	for(int i = 0; i<num; i++)
-	{
-		cin >> type;
-		v[type-1]++;
-	}
+
+void input(vector<int> &v) {
+    int num;
+    cin >> num;
+    
+    int type;
+    for (int i = 0; i < num; ++i) {
+        cin >> type;
+        v[type - 1]++;
+    }
 }
 
 char compare(vector <int> &a, vector <int> &b) 
@@ -47,5 +46,5 @@ char compare(vector <int> &a, vector <int> &b)
 
 void printWinner(char winner)
 {
-	cout << winner << '\n';
+	cout << winner << endl;
 }
