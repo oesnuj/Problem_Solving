@@ -2,37 +2,38 @@
 #include <vector>
 using namespace std;
 
-void checkNum(vector <int> &A, vector <int> &B, int n);
+void inputVector(vector<int>& vec, int n);
+void increaseNum(vector <int> &A, vector <int> &B, int n);
 
 int main() {
 	int n;
 	cin >> n;
-	vector <int> A(n);
-	for(auto &i : A)
-	{
-		cin >> i;
-	}
-	vector <int> B(n); 
-	for(auto &i : B)
-	{
-		cin >> i;	
-	}
+
+	vector<int> A, B;
+	inputVector(A, n);
+	inputVector(B, n);
 	
 	int k;
 	cin >> k;
-	for(int i =0; i< k; i++)
-	{
-		B[n-1]++; //1씩 증가시킨다.
-		checkNum(A, B, n);
-
+	for(int i =0; i< k; i++){
+		increaseNum(A, B, n);
 	}
+	
 	for(auto&i : B)
 		cout << i;
 }
 
 
-void checkNum(vector <int> &A, vector <int> &B, int n)
-{
+void inputVector(vector<int>& vec, int n) {
+    vec.resize(n);
+    for (auto& i : vec) {
+        cin >> i;
+    }
+}
+
+
+void increaseNum(vector <int> &A, vector <int> &B, int n) {
+	B[n-1]++;
 	for(int i = n-1; i >= 0; i--)
 	{
 		if(B[i] > A[i])
@@ -44,5 +45,4 @@ void checkNum(vector <int> &A, vector <int> &B, int n)
 		else
 			return;
 	}
-	return;
 }
