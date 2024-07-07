@@ -3,15 +3,23 @@
 #include <cmath>
 using namespace std;
 
+const int mod = 1234567891;
+
 int main() {
 	int n;
-	string str;
-	cin >> n >> str;
+	cin >> n;
 	long long hashSum = 0;
-	for (int i = 0; i < str.length(); i++) {
-		int a = str[i] - 'a' + 1;
-		hashSum += a * pow(31, i);
+	for (int i = 0; i < n; i++) {
+		char k;
+		cin >> k;
+		int a = k - 'a' + 1;
+		long long int r = 1;
+		for (int j = 0; j < i; j++) {
+			r *= 31;
+			r %= mod;
+		}
+		hashSum += (a * r) % mod;
 	}
-	cout << hashSum;
+	cout << hashSum% mod;
 	return 0;
 }
