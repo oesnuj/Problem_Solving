@@ -8,7 +8,7 @@ int main() {
         for (int y = -999; y <= 999; y++) {
             if ((a * x + b * y) == c && (d * x + e * y) == f) {
                 cout << x << " " << y;
-                return 0;
+                break;
             }
         }
     }
