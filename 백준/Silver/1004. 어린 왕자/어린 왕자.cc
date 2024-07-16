@@ -1,5 +1,6 @@
 #include <iostream>
 #include <cmath>
+
 using namespace std;
 
 float calcDistance(int& x1, int& y1, int& x2, int& y2) {
