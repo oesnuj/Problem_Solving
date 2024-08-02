@@ -31,7 +31,6 @@ int main() {
         }
         cout << result << '\n';
     }
-    
-    
+     
     return 0;
 }
