@@ -2,10 +2,9 @@ const fs = require('fs');
 const filepath = process.platform === 'linux' ? '/dev/stdin' : './input.txt';
 const input = fs.readFileSync(filepath).toString().trim().split('\n');
 
-const cleanedInput = input.map(line => line.trim());
-const N = +cleanedInput[0].split(' ')[0];
-const pokemonList = cleanedInput.slice(1, 1 + N);
-const testList = cleanedInput.slice(1 + N);
+const N = +input[0].split(' ')[0];
+const pokemonList = input.slice(1, 1 + N);
+const testList = input.slice(1 + N);
 
 // 이름을 키로 하고 번호를 값으로 하는 단일 Map 객체 생성
 const pokemonMap = new Map();
