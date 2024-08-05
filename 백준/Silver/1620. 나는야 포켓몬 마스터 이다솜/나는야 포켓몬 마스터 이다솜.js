@@ -1,31 +1,30 @@
+const fs = require('fs');
 const filepath = process.platform === 'linux' ? '/dev/stdin' : './input.txt';
-const input = require('fs').readFileSync(filepath).toString().trim().split('\n');
-const [N, M] = input[0].split(' ').map(Number);
+const input = fs.readFileSync(filepath).toString().trim().split('\n');
 
-const cleanInput = input.map(line => line.trim());
-const pokemonList = cleanInput.slice(1, 1 + N);
-const testList = cleanInput.slice(1 + N);
+const cleanedInput = input.map(line => line.trim());
+const N = +cleanedInput[0].split(' ')[0];
+const pokemonList = cleanedInput.slice(1, 1 + N);
+const testList = cleanedInput.slice(1 + N);
 
-// Pokémon 이름을 번호로 매핑하는 Map 객체
-const nameToNumber = new Map();
-// 번호를 Pokémon 이름으로 매핑하는 Map 객체
-const numberToName = new Map();
-
+// 이름을 키로 하고 번호를 값으로 하는 단일 Map 객체 생성
+const pokemonMap = new Map();
 
 pokemonList.forEach((pokemon, index) => {
     const number = index + 1;
-    nameToNumber.set(pokemon, number);
-    numberToName.set(number, pokemon);
+    pokemonMap.set(pokemon, number);
 });
 
-
-testList.forEach(test => {
+// 테스트 리스트의 Pokémon을 조회하고 출력
+const output = testList.map(test => {
     const num = Number(test);
     if (!isNaN(num)) {
         // 테스트 값이 번호인 경우
-        console.log(numberToName.get(num)); // 번호에 해당하는 Pokémon 이름 출력
+        return pokemonList[num - 1]; // 번호에 해당하는 Pokémon 이름 출력
     } else {
         // 테스트 값이 이름인 경우
-        console.log(nameToNumber.get(test)); // 이름에 해당하는 Pokémon 번호 출력
+        return pokemonMap.get(test); // 이름에 해당하는 Pokémon 번호 출력
     }
-});
+}).join('\n');
+
+console.log(output);
