@@ -1,14 +1,10 @@
 #include <iostream>
-#include <algorithm>
 #include <vector>
 using namespace std;
 
-
-int arr[365] = {0};
-
 struct EventPeriod
 {
-    int s, e;
+    int start, end;
 };
 
 int main()
@@ -16,28 +12,29 @@ int main()
     int N;
     cin >> N;
     vector <EventPeriod> v(N);
+    int days[365] = {0};
+
     for(int i = 0; i < N; i++)
     {
-        int s, e;
-        cin >> v[i].s >> v[i].e;
-        for (int k = v[i].s - 1; k < v[i].e; k++) {
-            arr[k]++;
+        cin >> v[i].start >> v[i].end; //일정 시작일, 종료일 입력받기
+
+        for (int k = v[i].start - 1; k < v[i].end; k++) {
+            days[k]++; //일정에 포함되는 날의 배열 값 +1;
         }
     }
 
     int result = 0;
-    int current_height = 0;
-    int current_width = 0;
+    int height = 0, width = 0;
     for (int i = 0; i < 365; i++) {
-        if (arr[i] != 0) {
-            current_width++;
-            current_height = max(current_height, arr[i]);
+        if (days[i] != 0) {
+            width++;
+            height = max(height, days[i]);
         }
         
-        if (arr[i + 1] == 0) {
-            result += current_height * current_width;
-            current_width = 0;
-            current_height = 0;
+        if (days[i + 1] == 0) {
+            result += height * width;
+            width = 0;
+            height = 0;
         }
     }
     cout << result;
