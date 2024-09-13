@@ -2,7 +2,10 @@
 #include <algorithm>
 #include <vector>
 using namespace std;
+
+
 int arr[365] = {0};
+
 struct EventPeriod
 {
     int s, e;
@@ -17,14 +20,11 @@ int main()
     {
         int s, e;
         cin >> v[i].s >> v[i].e;
-    }
-
-    for (auto event : v)
-    {
-        for (int i = event.s - 1; i < event.e; i++) {
-            arr[i]++;
+        for (int k = v[i].s - 1; k < v[i].e; k++) {
+            arr[k]++;
         }
     }
+
     int result = 0;
     int current_height = 0;
     int current_width = 0;
