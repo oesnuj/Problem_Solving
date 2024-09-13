@@ -2,31 +2,23 @@
 #include <algorithm>
 #include <vector>
 using namespace std;
-
 int arr[365] = {0};
-
 struct EventPeriod
 {
     int s, e;
 };
 
-bool compareInfo(EventPeriod a, EventPeriod b) {
-    if (a.s == b.s) return a.e > b.e;
-    return a.s < b.s;
-}
-
 int main()
 {
     int N;
     cin >> N;
-    vector <EventPeriod> v;
-    while (N--)
+    vector <EventPeriod> v(N);
+    for(int i = 0; i < N; i++)
     {
         int s, e;
-        cin >> s >> e;
-        v.push_back({ s, e });
+        cin >> v[i].s >> v[i].e;
     }
-    sort(v.begin(), v.end(), compareInfo);
+
     for (auto event : v)
     {
         for (int i = event.s - 1; i < event.e; i++) {
