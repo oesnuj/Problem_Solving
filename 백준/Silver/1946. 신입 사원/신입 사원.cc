@@ -4,8 +4,12 @@
 using namespace std;
 
 struct Applicant {
-    int docRank;  
+    int docRank;
     int intvRank;
+
+    bool operator<(const Applicant& other) const {
+        return docRank < other.docRank;
+    }
 };
 
 int main()
@@ -16,13 +20,13 @@ int main()
     while (T--) {
         int n;
         cin >> n;
-        vector <Applicant> v(n);
-        for (auto &i : v) {
+        vector<Applicant> v(n);
+        for (auto& i : v) {
             cin >> i.docRank >> i.intvRank;
         }
-        sort(v.begin(), v.end(), [](const Applicant& a, const Applicant& b) {
-            return a.docRank < b.docRank;
-        });
+
+        sort(v.begin(), v.end());
+
         int top = v[0].intvRank;
         int cnt = 1;
         for (int i = 1; i < n; i++) {
@@ -31,7 +35,7 @@ int main()
                 cnt++;
             }
         }
-        cout << cnt <<endl;
+        cout << cnt << endl;
     }
     return 0;
 }
