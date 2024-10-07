@@ -1,4 +1,3 @@
-
 n = int(input())  # 수열의 크기
 sequence = [int(input()) for _ in range(n)]  # 주어진 수열
 
@@ -15,7 +14,7 @@ for num in sequence:
         current += 1
 
     # 스택의 최상단이 num과 같다면 pop
-    if stack and stack[-1] == num:
+    if stack[-1] == num:
         stack.pop()
         result.append('-')
     else:
