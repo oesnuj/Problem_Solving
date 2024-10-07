@@ -5,12 +5,11 @@ using namespace std;
 
 int main()
 {
-    string buffer;  // string으로 변경
+    string buffer;
     stack<int> s;
     int n;
     cin >> n;
     int count = 0;
-    s.push(0);
     
     while (n--)
     {
