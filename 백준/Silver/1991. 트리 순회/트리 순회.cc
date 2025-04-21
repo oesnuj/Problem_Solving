@@ -7,7 +7,6 @@ int N;
 char root, p, lc, rc;
 char Tree[26][2];
 
-
 void PreOrder(char node) {
 	if (node == '.') return;
 	cout << node;
@@ -32,18 +31,15 @@ void PostOrder(char node) {
 int main() {
 	cin.tie(0)->sync_with_stdio(0);
 	cin >> N;
-	cin >> root >> lc >> rc;
-	Tree[root - 'A'][0] = lc;
-	Tree[root - 'A'][1] = rc;
-	for (int i = 1; i < N; i++) {
+	for (int i = 0; i < N; i++) {
 		cin >> p >> lc >> rc;
 		Tree[p - 'A'][0] = lc;
 		Tree[p - 'A'][1] = rc;
 	}
-	PreOrder(root);
+	PreOrder('A');
 	cout << '\n';
-	InOrder(root);
+	InOrder('A');
 	cout << '\n';
-	PostOrder(root);
+	PostOrder('A');
 	return 0;
 }
