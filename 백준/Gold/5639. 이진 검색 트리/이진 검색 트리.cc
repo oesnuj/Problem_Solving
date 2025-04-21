@@ -21,6 +21,7 @@ void PostOrder(int start, int end) {
 }
 
 int main() {
+    cin.tie(0)->sync_with_stdio(0);
     int x;
     while (cin >> x) {
         v.push_back(x);
