@@ -2,7 +2,7 @@
 #include <vector>
 using namespace std;
 
-void print(vector <int> &v) {
+void print(vector <int> v) {
 	for (const auto i : v) {
 		cout << i << " ";
 	}
@@ -17,12 +17,13 @@ void makeLotto(vector <int> &s, vector <int> &picked, int index) {
 	}
 	if (index >= s.size()) return;
 
-	for (int i = index; i < s.size(); i++) {
-		picked.push_back(s[i]);
-		makeLotto(s, picked, i + 1);
-		picked.pop_back();
-	}
+	picked.push_back(s[index]);
+	makeLotto(s, picked, index + 1);
+	picked.pop_back();
+
+	makeLotto(s, picked, index + 1);
 }
+
 
 int main() {
 	while (1) {
