@@ -1,60 +1,37 @@
 #include <iostream>
-#include <vector>
-
-
 using namespace std;
 
-int N, cntWhite, cntBlue;
-vector <vector <int>> v;
+int arr[128][128]{};
+int N, white = 0, blue = 0;
 
-
-bool isBlue(int r, int c, int length) {
-	
-	for (int i = r; i < r + length; i++) {
-		for (int j = c; j < c + length; j++) {
-			if (v[i][j] == 0) return false;
+void recursion(int r, int c, int n) {
+	for (int i = r; i < r + n; i++) {
+		for (int j = c; j < c + n; j++) {
+			if (arr[i][j] != arr[r][c]) {
+				// 서로 다른 색이 섞여 있는 경우
+				int half = n / 2;
+				recursion(r, c, half);
+				recursion(r, c + half, half);
+				recursion(r + half, c, half);
+				recursion(r + half, c + half, half);
+				return;
+			}
 		}
 	}
-	return true;
+	// 모두 같은 색인 경우
+	if (arr[r][c]) blue++;
+	else white++;
 }
-
-bool isWhite(int r, int c, int length) {
-
-	for (int i = r; i < r + length; i++) {
-		for (int j = c; j < c + length; j++) {
-			if (v[i][j] == 1) return false;
-		}
-	}
-	return true;
-}
-
-
-void recursion(int r, int c, int length) {
-	if (length == 0) {
-		return;
-	}
-	if (isBlue(r, c, length)) cntBlue++;
-	else if(isWhite(r, c, length)) cntWhite++;
-	else {
-		int half = length / 2;
-		recursion(r, c, half);
-		recursion(r, c + half, half);
-		recursion(r + half, c, half);
-		recursion(r + half, c + half, half);
-	}
-}
-
 
 int main() {
+	ios::sync_with_stdio(false); cin.tie(nullptr);
 
 	cin >> N;
-	v.resize(N, vector<int>(N, 0));
-	for (int i = 0; i < N; i++) {
-		for (int j = 0; j < N; j++) {
-			cin >> v[i][j];
-		}
-	}
+	for (int i = 0; i < N; i++) 
+		for (int j = 0; j < N; j++) 
+			cin >> arr[i][j];
+
 	recursion(0, 0, N);
-	cout << cntWhite << '\n' << cntBlue;
+	cout << white << '\n' << blue;
 	return 0;
 }
