@@ -14,7 +14,6 @@ function solution(survey, choices) {
         else 
             typeMap[partner] += scoreMap[choices[i]];
     })
-    console.log(typeMap)
     const types = Object.keys(typeMap);
     let answer = '';
     for(let i = 0; i<types.length; i += 2){
