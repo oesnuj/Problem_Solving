@@ -1,16 +1,10 @@
 function solution(numbers, target) {
-    let count = 0;
-    function recursion(i, sum){
+    function dfs(i, sum){
         if(i === numbers.length){
-           if(sum === target) count++;
-            return;
-       }
-        recursion(i+1, sum + numbers[i])
-        recursion(i+1, sum - numbers[i])
+            return sum === target ? 1 : 0;
+        }
+        return dfs(i + 1, sum + numbers[i]) + dfs(i + 1, sum - numbers[i]);
     }
     
-    recursion(0, 0);
-    return count;
+    return dfs(0, 0);
 }
-
-
