@@ -7,7 +7,6 @@ function solution(numbers, target) {
        }
         recursion(i+1, sum + numbers[i])
         recursion(i+1, sum - numbers[i])
-        return count;
     }
     
     recursion(0, 0);
