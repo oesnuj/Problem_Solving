@@ -3,16 +3,17 @@ const input = require('fs')
   .trim()
   .split('\n');
 
-const [N, _] = input[0].split(' ').map(Number);
+const [N, K] = input[0].split(' ').map(Number);
 grid = input.slice(1, N + 1).map((e) => e.split(' ').map(Number));
 const [S, X, Y] = input[N + 1].split(' ').map(Number);
 
 const queue = [];
 let head = 0;
-for (let i = 0; i < N; i++) {
-  for (let j = 0; j < N; j++) {
-    const virus = grid[i][j];
-    if (virus) queue.push([virus, i, j]);
+for (let x = 0; x < N; x++) {
+  for (let y = 0; y < N; y++) {
+    if (grid[x][y] > 0) {
+      queue.push([grid[x][y], x, y]);
+    }
   }
 }
 
