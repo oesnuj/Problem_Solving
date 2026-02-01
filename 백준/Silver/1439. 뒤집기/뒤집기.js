@@ -1,8 +1,18 @@
-const input = require('fs')
-  .readFileSync(process.platform === 'linux' ? 0 : 'input.txt', 'utf8')
-  .trim()
-  .split('\n');
+const s = require('fs').readFileSync(0, 'utf8').trim();
 
-const zero = input[0].split('1').filter((e) => e !== '').length;
-const one = input[0].split('0').filter((e) => e !== '').length;
+let zero = 0;
+let one = 0;
+
+// 첫 덩어리 처리
+if (s[0] === '0') zero++;
+else one++;
+
+// 전환 지점 처리
+for (let i = 1; i < s.length; i++) {
+  if (s[i] !== s[i - 1]) {
+    if (s[i] === '0') zero++;
+    else one++;
+  }
+}
+
 console.log(Math.min(zero, one));
