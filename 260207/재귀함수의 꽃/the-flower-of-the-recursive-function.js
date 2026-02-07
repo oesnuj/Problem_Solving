@@ -12,4 +12,3 @@ function recursion(n) {
 }
 
 recursion(n);
-console.l
