@@ -3,28 +3,15 @@ const input = require('fs')
   .trim()
   .split('\n');
 
-const n = +input[0];
-const board = Array.from({ length: n }, () => Array(2 * n - 1).fill(' '));
+const N = +input[0];
 
-function recursion(n, r, c) {
-  if (n === 3) {
-    board[r][c] = '*';
-    board[r + 1][c - 1] = '*';
-    board[r + 1][c + 1] = '*';
-    board[r + 2][c - 2] = '*';
-    board[r + 2][c - 1] = '*';
-    board[r + 2][c] = '*';
-    board[r + 2][c + 1] = '*';
-    board[r + 2][c + 2] = '*';
-    return;
-  }
+let triangle = ['  *  ', ' * * ', '*****'];
 
-  const half = Math.trunc(n / 2);
-  recursion(half, r, c);
-  recursion(half, r + half, c - half);
-  recursion(half, r + half, c + half);
+for (let h = 3; h < N; h *= 2) {
+  const pad = ' '.repeat(h);
+  const top = triangle.map((s) => pad + s + pad);
+  const bottom = triangle.map((s) => s + ' ' + s);
+  triangle = top.concat(bottom);
 }
 
-recursion(n, 0, n - 1);
-
-console.log(board.map((row) => row.join('')).join('\n'));
+console.log(triangle.join('\n'));
