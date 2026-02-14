@@ -1,5 +1,3 @@
-const { count } = require('console');
-
 const input = require('fs')
   .readFileSync(process.platform === 'linux' ? 0 : 'input.txt', 'utf8')
   .trim()
