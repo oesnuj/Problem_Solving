@@ -1,3 +1,5 @@
+const { count } = require('console');
+
 const input = require('fs')
   .readFileSync(process.platform === 'linux' ? 0 : 'input.txt', 'utf8')
   .trim()
@@ -5,102 +7,75 @@ const input = require('fs')
 
 const [N, M] = input[0].split(' ').map(Number);
 const board = input.slice(1).map((e) => e.trim().split(' ').map(Number));
+const board2 = Array.from({ length: N }, () => Array(M));
 const cctvs = [];
-const dr = [-1, 0, 1, 0];
+const dr = [1, 0, -1, 0];
 const dc = [0, 1, 0, -1];
-const DIRS = [
-  null,
-  [[0], [1], [2], [3]],
-  [
-    [0, 2],
-    [1, 3],
-  ],
-  [
-    [0, 1],
-    [1, 2],
-    [2, 3],
-    [3, 0],
-  ],
-  [
-    [0, 1, 2],
-    [1, 2, 3],
-    [2, 3, 0],
-    [3, 0, 1],
-  ],
-  [[0, 1, 2, 3]],
-];
-let result = N * M;
+let result = Infinity;
 
 for (let r = 0; r < N; r++) {
   for (let c = 0; c < M; c++) {
-    const v = board[r][c];
-    if (v >= 1 && v <= 5) {
-      cctvs.push([r, c, v]);
+    const type = board[r][c];
+    if (type >= 1 && type <= 5) {
+      cctvs.push([r, c, type]);
     }
   }
 }
 
-recursion(0);
-console.log(result);
-
-function recursion(k) {
-  // 마지막 칸 도달시 종료
-  // 현재의 사각지대 계산 및 최소값 갱신
-  if (k === cctvs.length) {
-    result = Math.min(result, countBlindSpots());
-    return;
-  }
-
-  // 현재 칸이 감시 카메라일때
-  const [r, c, type] = cctvs[k];
-
-  // 각 번호에 맞게 백트래킹
-  for (const dirs of DIRS[type]) {
-    const changedAll = [];
-
-    for (const dir of dirs) {
-      const changed = watch(r, c, dir);
-      changedAll.push(...changed);
-    }
-
-    recursion(k + 1);
-
-    // 복구
-    for (const [rr, cc] of changedAll) {
-      board[rr][cc] = 0;
-    }
-  }
-}
-
-function countBlindSpots() {
-  let cnt = 0;
-
+for (let i = 0; i < 1 << (2 * cctvs.length); i++) {
+  let brute = i;
   for (let r = 0; r < N; r++) {
     for (let c = 0; c < M; c++) {
-      if (board[r][c] === 0) cnt++;
+      board2[r][c] = board[r][c];
+    }
+  }
+  for (let j = 0; j < cctvs.length; j++) {
+    let dir = brute % 4;
+    brute = Math.trunc(brute / 4);
+    const [r, c, type] = cctvs[j];
+    if (type === 1) {
+      watch(r, c, dir);
+    } else if (type === 2) {
+      watch(r, c, dir);
+      watch(r, c, dir + 2);
+    } else if (type === 3) {
+      watch(r, c, dir);
+      watch(r, c, dir + 1);
+    } else if (type === 4) {
+      watch(r, c, dir);
+      watch(r, c, dir + 1);
+      watch(r, c, dir + 2);
+    } else {
+      watch(r, c, dir);
+      watch(r, c, dir + 1);
+      watch(r, c, dir + 2);
+      watch(r, c, dir + 3);
     }
   }
 
-  return cnt;
+  let cnt = 0;
+  for (let r = 0; r < N; r++) {
+    for (let c = 0; c < M; c++) {
+      cnt += board2[r][c] === 0;
+    }
+  }
+
+  result = Math.min(result, cnt);
+}
+
+console.log(result);
+
+function isBlock(a, b) {
+  return a < 0 || a >= N || b < 0 || b >= M;
 }
 
 function watch(r, c, dir) {
-  const changed = [];
-
-  let nr = r + dr[dir];
-  let nc = c + dc[dir];
-
-  while (nr >= 0 && nr < board.length && nc >= 0 && nc < board[0].length) {
-    if (board[nr][nc] === 6) break;
-
-    if (board[nr][nc] === 0) {
-      board[nr][nc] = -1;
-      changed.push([nr, nc]);
-    }
-
-    nr += dr[dir];
-    nc += dc[dir];
+  dir %= 4;
+  while (true) {
+    r += dr[dir];
+    c += dc[dir];
+    if (isBlock(r, c) || board2[r][c] === 6) return;
+    if (board2[r][c] > 0) continue;
+    board2[r][c] = -1;
   }
-
-  return changed;
 }
