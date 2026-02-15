@@ -5,70 +5,69 @@ const input = require('fs')
 
 const [R, C] = input[0].split(' ').map(Number);
 const grid = input.slice(1);
-const board = Array.from({ length: R }, () => Array(C).fill(-2));
-const fire = [];
-let J, F;
+
+const WALL = -1;
+const UNVISITED = -2;
+
+const fireTime = Array.from({ length: R }, () => Array(C).fill(UNVISITED));
+const personTime = Array.from({ length: R }, () => Array(C).fill(UNVISITED));
+
+const fires = [];
+let start;
 
 for (let i = 0; i < R; i++) {
   for (let j = 0; j < C; j++) {
-    if (grid[i][j] === 'J') J = [i, j];
-    if (grid[i][j] === 'F') fire.push([i, j]);
+    if (grid[i][j] === 'J') start = [i, j];
+    if (grid[i][j] === 'F') fires.push([i, j]);
     if (grid[i][j] === '#') {
-      board[i][j] = -1;
+      fireTime[i][j] = WALL;
+      personTime[i][j] = WALL;
     }
   }
 }
+const dirs = [[1, 0], [0, 1], [-1, 0], [0, -1]];
+const inRange = (x, y) => x >= 0 && x < R && y >= 0 && y < C;
 
-const [jx, jy] = J;
+// 불 확산
+const fireQueue = [...fires];
+fires.forEach(([x, y]) => (fireTime[x][y] = 0));
 
-const Jboard = board.map((row) => [...row]);
-
-const dirs = [
-  [1, 0],
-  [0, 1],
-  [-1, 0],
-  [0, -1],
-];
-
-const queue = [];
-let head = 0;
-for (const [fx, fy] of fire) {
-  queue.push([fx, fy]);
-  board[fx][fy] = 0;
-}
-
-while (head < queue.length) {
-  const [x, y] = queue[head++];
+for (let i = 0; i < fireQueue.length; i++) {
+  const [x, y] = fireQueue[i];
 
   for (const [dx, dy] of dirs) {
-    const nx = x + dx;
-    const ny = y + dy;
-    if (nx < 0 || nx >= R || ny < 0 || ny >= C) continue;
-    if (board[nx][ny] === -1 || board[nx][ny] !== -2) continue;
-    board[nx][ny] = board[x][y] + 1;
-    queue.push([nx, ny]);
+    const nx = x + dx,
+      ny = y + dy;
+    if (!inRange(nx, ny) || fireTime[nx][ny] !== UNVISITED) continue;
+
+    fireTime[nx][ny] = fireTime[x][y] + 1;
+    fireQueue.push([nx, ny]);
   }
 }
 
-queue.push([jx, jy]);
-Jboard[jx][jy] = 0;
+// 지훈이 탈출
+const personQueue = [start];
+personTime[start[0]][start[1]] = 0;
 
-while (head < queue.length) {
-  const [x, y] = queue[head++];
+for (let i = 0; i < personQueue.length; i++) {
+  const [x, y] = personQueue[i];
 
   for (const [dx, dy] of dirs) {
-    const nx = x + dx;
-    const ny = y + dy;
-    if (nx < 0 || nx >= R || ny < 0 || ny >= C) {
-      console.log(Jboard[x][y] + 1);
+    const nx = x + dx,
+      ny = y + dy;
+
+    if (!inRange(nx, ny)) {
+      console.log(personTime[x][y] + 1);
       return;
     }
-    if (Jboard[nx][ny] === -1 || Jboard[nx][ny] !== -2) continue;
 
-    // 이동시간이 불의 전파보다 느렸다면 해당 칸은 접근 불가능
-    if (board[nx][ny] !== -2 && Jboard[x][y] + 1 >= board[nx][ny]) continue;
-    Jboard[nx][ny] = Jboard[x][y] + 1;
-    queue.push([nx, ny]);
+    if (personTime[nx][ny] !== UNVISITED) continue;
+
+    const nextTime = personTime[x][y] + 1;
+    if (fireTime[nx][ny] !== UNVISITED && nextTime >= fireTime[nx][ny]) continue;
+
+    personTime[nx][ny] = nextTime;
+    personQueue.push([nx, ny]);
   }
 }
 
