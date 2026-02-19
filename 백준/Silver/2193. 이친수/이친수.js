@@ -4,14 +4,13 @@ const input = require('fs')
   .split('\n');
 
 const n = +input[0];
-const dp = Array.from({ length: n + 1 }, () => Array(2).fill(0n));
+const dp = Array.from({ length: n + 1 });
 
-dp[1][0] = 0n;
-dp[1][1] = 1n;
+dp[1] = 1n;
+dp[2] = 1n;
 
-for (let i = 2; i <= n; i++) {
-  dp[i][0] = dp[i - 1][0] + dp[i - 1][1];
-  dp[i][1] = dp[i - 1][0];
+for (let i = 3; i <= n; i++) {
+  dp[i] = dp[i - 2] + dp[i - 1];
 }
 
-console.log((dp[n][0] + dp[n][1]).toString());
+console.log(dp[n].toString());
