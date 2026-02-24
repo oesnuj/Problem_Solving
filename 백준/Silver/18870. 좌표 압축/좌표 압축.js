@@ -1,30 +1,19 @@
-const input = require('fs')
-  .readFileSync(process.platform === 'linux' ? 0 : 'input.txt', 'utf8')
-  .trim()
-  .split('\n');
+const fs = require('fs');
 
+const input = fs.readFileSync(0, 'utf8').trim().split('\n');
 const n = +input[0];
-const a = input[1].split(' ').map(Number);
+const arr = input[1].split(' ').map(Number);
 
-const sorted = [...a].sort((a, b) => a - b);
-const uni = [];
-for (let i = 0; i < n; i++) {
-  if (i === 0 || sorted[i] !== sorted[i - 1]) {
-    uni.push(sorted[i]);
-  }
-}
+// 1. 중복 제거 + 정렬
+const sorted = [...new Set(arr)].sort((a, b) => a - b);
 
-const answer = [];
-a.forEach((e) => answer.push(lower_bound(e)));
-console.log(answer.join(' '));
+// 2. 값 -> 인덱스 매핑
+const indexMap = new Map();
+sorted.forEach((value, index) => {
+  indexMap.set(value, index);
+});
 
-function lower_bound(target) {
-  let st = 0;
-  let en = uni.length;
-  while (st < en) {
-    const mid = (st + en) >> 1;
-    if (uni[mid] >= target) en = mid;
-    else st = mid + 1;
-  }
-  return st;
-}
+// 3. 원래 배열을 압축값으로 변환
+const result = arr.map(value => indexMap.get(value));
+
+console.log(result.join(' '));
