@@ -1,13 +1,12 @@
-/**
- * @param {character[][]} board
- * @param {number[]} click
- * @return {character[][]}
- */
 function updateBoard(board, click) {
     const [sr, sc] = click;
 
-    if (board[sr][sc] === 'M') board[sr][sc] = 'X';
-    else if (board[sr][sc] === 'E') reveal(board, sr, sc);
+    if (board[sr][sc] === 'M') {
+        board[sr][sc] = 'X';
+        return board;
+    }
+
+    reveal(board, sr, sc);
 
     return board;
 }
@@ -24,38 +23,34 @@ function inRange(board, r, c) {
     return 0 <= r && r < m && 0 <= c && c < n;
 }
 
-function reveal(board, sr, sc) {
-    const queue = [[sr, sc]];
-    let head = 0;
+function countMines(board, r, c) {
+    let cnt = 0;
 
-    while (head < queue.length) {
-        const [r, c] = queue[head++];
+    for (const [dr, dc] of dirs) {
+        const nr = r + dr;
+        const nc = c + dc;
 
-        if (board[r][c] !== 'E') continue;
+        if (!inRange(board, nr, nc)) continue;
+        if (board[nr][nc] === 'M') cnt++;
+    }
 
-        let mineCount = 0;
-        const candidates = [];
+    return cnt;
+}
 
-        for (const [dr, dc] of dirs) {
-            const nr = r + dr;
-            const nc = c + dc;
-            if (!inRange(board, nr, nc)) continue;
+function reveal(board, r, c) {
+    if (!inRange(board, r, c)) return;
+    if (board[r][c] !== 'E') return;
 
-            if (board[nr][nc] === 'M') 
-                mineCount++;
-            else if (board[nr][nc] === 'E') 
-                candidates.push([nr, nc]);
-        }
+    const cnt = countMines(board, r, c);
 
-        if (mineCount > 0) {
-            board[r][c] = String(mineCount);
-            continue;
-        }
+    if (cnt > 0) {
+        board[r][c] = String(cnt);
+        return;
+    }
 
-        board[r][c] = 'B';
+    board[r][c] = 'B';
 
-        for (const [nr, nc] of candidates) {
-            queue.push([nr, nc]);
-        }
+    for (const [dr, dc] of dirs) {
+        reveal(board, r + dr, c + dc);
     }
 }
