@@ -2,11 +2,8 @@ class Solution {
 public:
     bool validSquare(vector<int>& p1, vector<int>& p2, vector<int>& p3, vector<int>& p4) {
         vector<int> d = {
-            dist2(p1, p2),
-            dist2(p1, p3),
-            dist2(p1, p4),
-            dist2(p2, p3),
-            dist2(p2, p4),
+            dist2(p1, p2), dist2(p1, p3), dist2(p1, p4),
+            dist2(p2, p3), dist2(p2, p4),
             dist2(p3, p4)
         };
 
