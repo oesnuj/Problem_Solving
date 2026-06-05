@@ -12,40 +12,38 @@ var findAllPeople = function(n, meetings, firstPerson) {
     knows[firstPerson] = true;
 
     let i = 0;
-
     while (i < meetings.length) {
         const curTime = meetings[i][2];
 
-        const graph = new Map();
+        const graph = Array.from({ length: n }, () => []);
         let j = i;
         while (j < meetings.length && meetings[j][2] === curTime) {
             const [x, y] = meetings[j];
-            if (!graph.has(x)) graph.set(x, []);
-            if (!graph.has(y)) graph.set(y, []);
-            graph.get(x).push(y);
-            graph.get(y).push(x);
+            graph[x].push(y);
+            graph[y].push(x);
             j++;
         }
 
         const queue = [];
         let head = 0;
-        for (const node of graph.keys()) {
-            if (knows[node]) queue.push(node);
+        for (let k = 0; k < n; k++) {
+            if (graph[k].length && knows[k]) queue.push(k);
         }
 
         while (head < queue.length) {
             const cur = queue[head++];
-            for (const next of graph.get(cur)) {
+            for (const next of graph[cur]) {
                 if (!knows[next]) {
                     knows[next] = true;
                     queue.push(next);
                 }
             }
         }
+
         i = j;
     }
 
-   const result = [];
+    const result = [];
     for (let i = 0; i < n; i++) {
         if (knows[i]) result.push(i);
     }
