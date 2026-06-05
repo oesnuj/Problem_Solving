@@ -7,7 +7,6 @@
 var findAllPeople = function(n, meetings, firstPerson) {
     meetings.sort((a, b) => a[2] - b[2]);
 
-
     const knows = new Array(n).fill(false);
     knows[0] = true;
     knows[firstPerson] = true;
@@ -46,8 +45,9 @@ var findAllPeople = function(n, meetings, firstPerson) {
         i = j;
     }
 
-    return knows.reduce((acc, val, idx) => {
-        if (val) acc.push(idx);
-        return acc;
-    }, []);
+   const result = [];
+    for (let i = 0; i < n; i++) {
+        if (knows[i]) result.push(i);
+    }
+    return result;
 };
