@@ -20,12 +20,12 @@ public:
             current = current->next;
         }
 
+        // 리버스
         ListNode* start = current;
         ListNode* reversePrev = nullptr;
-
         for (int i = 0; i < right - left + 1; i++) {
             ListNode* nextNode = current->next;
-
+            
             current->next = reversePrev;
             reversePrev = current;
             current = nextNode;
