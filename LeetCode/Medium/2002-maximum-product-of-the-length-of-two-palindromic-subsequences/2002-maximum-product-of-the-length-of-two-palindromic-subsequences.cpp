@@ -2,34 +2,43 @@ class Solution {
 public:
     int maxProduct(string s) {
         int best = 0;
-        backtrack(s, 0, "", "", best);
+        string groupA, groupB;
+        backtrack(s, 0, groupA, groupB, best);
         return best;
     }
-    
+
 private:
-    void backtrack(string &s, int i, string groupA, string groupB, int &best) {
-        if(i == s.length()){
-            if(isPalindrome(groupA) && isPalindrome(groupB)){
+    void backtrack(string& s, int i, string& groupA, string& groupB, int& best) {
+        if (i == s.size()) {
+            if (isPalindrome(groupA) && isPalindrome(groupB)) {
                 best = max(best, (int)(groupA.size() * groupB.size()));
             }
             return;
         }
-        backtrack(s, i + 1, groupA + s[i], groupB, best);
-        backtrack(s, i + 1, groupA, groupB + s[i], best);
+
+        groupA.push_back(s[i]);
+        backtrack(s, i + 1, groupA, groupB, best);
+        groupA.pop_back();
+
+        groupB.push_back(s[i]);
+        backtrack(s, i + 1, groupA, groupB, best);
+        groupB.pop_back();
+
         backtrack(s, i + 1, groupA, groupB, best);
     }
-    
-    bool isPalindrome(string &s) {
-        int left = 0;
-        int right = s.length() - 1;
 
-        while(left < right){
+    bool isPalindrome(const string& s) {
+        int left = 0;
+        int right = s.size() - 1;
+
+        while (left < right) {
             if (s[left] != s[right]){
                 return false;
             }
             left++;
             right--;
         }
+
         return true;
     }
 };
