@@ -16,25 +16,27 @@ public:
         int peak = findPeak(mountainArr, n);
         
         int leftResult = searchAscending(mountainArr, 0, peak, target);
-        if (leftResult != -1) return leftResult;
+        if (leftResult != -1) {
+            return leftResult;  
+        }
         return searchDescending(mountainArr, peak + 1, n - 1, target);
     }
     
 private:
     int findPeak(MountainArray &arr, int n) {
-        int st = 0;
-        int en = n - 2;
+        int left = 0;
+        int right = n - 2;
 
-        while(st < en){
-            int mid = (st + en)/2;
+        while(left < right){
+            int mid = (left + right)/2;
             if(arr.get(mid) > arr.get(mid+1)) {
-                en = mid;  
+                right = mid;  
             }
             else{
-                st = mid + 1;
+                left = mid + 1;
             }
         }
-        return st;
+        return left;
     }
     
     int searchAscending(MountainArray &arr, int left, int right, int target) {
